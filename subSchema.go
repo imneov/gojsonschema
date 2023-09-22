@@ -19,8 +19,8 @@
 // repository-name  gojsonschema
 // repository-desc  An implementation of JSON Schema, based on IETF's draft v4 - Go language.
 //
-// description      Defines the structure of a sub-subSchema.
-//                  A sub-subSchema can contain other sub-schemas.
+// description      Defines the structure of a sub-SubSchema.
+//                  A sub-SubSchema can contain other sub-schemas.
 //
 // created          27-02-2013
 
@@ -76,10 +76,10 @@ const (
 	KEY_ELSE                  = "else"
 )
 
-type subSchema struct {
+type SubSchema struct {
 	draft *Draft
 
-	// basic subSchema meta properties
+	// basic SubSchema meta properties
 	id          *gojsonreference.JsonReference
 	title       *string
 	description *string
@@ -89,19 +89,19 @@ type subSchema struct {
 	// Quick pass/fail for boolean schemas
 	pass *bool
 
-	// Types associated with the subSchema
+	// Types associated with the SubSchema
 	types jsonSchemaType
 
 	// Reference url
 	ref *gojsonreference.JsonReference
 	// Schema referenced
-	refSchema *subSchema
+	refSchema *SubSchema
 
 	// hierarchy
-	parent                      *subSchema
-	itemsChildren               []*subSchema
+	parent                      *SubSchema
+	itemsChildren               []*SubSchema
 	itemsChildrenIsSingleSchema bool
-	propertiesChildren          []*subSchema
+	propertiesChildren          []*SubSchema
 
 	// validation : number / integer
 	multipleOf       *big.Rat
@@ -123,14 +123,14 @@ type subSchema struct {
 
 	dependencies         map[string]interface{}
 	additionalProperties interface{}
-	patternProperties    map[string]*subSchema
-	propertyNames        *subSchema
+	patternProperties    map[string]*SubSchema
+	propertyNames        *SubSchema
 
 	// validation : array
 	minItems    *int
 	maxItems    *int
 	uniqueItems bool
-	contains    *subSchema
+	contains    *SubSchema
 
 	additionalItems interface{}
 
@@ -138,12 +138,12 @@ type subSchema struct {
 	_const *string //const is a golang keyword
 	enum   []string
 
-	// validation : subSchema
-	oneOf []*subSchema
-	anyOf []*subSchema
-	allOf []*subSchema
-	not   *subSchema
-	_if   *subSchema // if/else are golang keywords
-	_then *subSchema
-	_else *subSchema
+	// validation : SubSchema
+	oneOf []*SubSchema
+	anyOf []*SubSchema
+	allOf []*SubSchema
+	not   *SubSchema
+	_if   *SubSchema // if/else are golang keywords
+	_then *SubSchema
+	_else *SubSchema
 }

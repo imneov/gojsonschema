@@ -39,20 +39,20 @@ type schemaPoolDocument struct {
 	Draft    *Draft
 }
 
-type schemaPool struct {
+type SchemaPool struct {
 	schemaPoolDocuments map[string]*schemaPoolDocument
 	jsonLoaderFactory   JSONLoaderFactory
 	autoDetect          *bool
 }
 
-func (p *schemaPool) parseReferences(document interface{}, ref gojsonreference.JsonReference, pooled bool) error {
+func (p *SchemaPool) parseReferences(document interface{}, ref gojsonreference.JsonReference, pooled bool) error {
 
 	var (
 		draft     *Draft
 		err       error
 		reference = ref.String()
 	)
-	// Only the root document should be added to the schema pool if pooled is true
+	// Only the root document should be added to the schema Pool if pooled is true
 	if _, ok := p.schemaPoolDocuments[reference]; pooled && ok {
 		return fmt.Errorf("Reference already exists: \"%s\"", reference)
 	}
@@ -73,7 +73,7 @@ func (p *schemaPool) parseReferences(document interface{}, ref gojsonreference.J
 	return err
 }
 
-func (p *schemaPool) parseReferencesRecursive(document interface{}, ref gojsonreference.JsonReference, draft *Draft) error {
+func (p *SchemaPool) parseReferencesRecursive(document interface{}, ref gojsonreference.JsonReference, draft *Draft) error {
 	// parseReferencesRecursive parses a JSON document and resolves all $id and $ref references.
 	// For $ref references it takes into account the $id scope it is in and replaces
 	// the reference by the absolute resolved reference
@@ -136,7 +136,7 @@ func (p *schemaPool) parseReferencesRecursive(document interface{}, ref gojsonre
 	return nil
 }
 
-func (p *schemaPool) GetDocument(reference gojsonreference.JsonReference) (*schemaPoolDocument, error) {
+func (p *SchemaPool) GetDocument(reference gojsonreference.JsonReference) (*schemaPoolDocument, error) {
 
 	var (
 		spd   *schemaPoolDocument
@@ -157,7 +157,7 @@ func (p *schemaPool) GetDocument(reference gojsonreference.JsonReference) (*sche
 
 	if spd, ok = p.schemaPoolDocuments[refToURL.String()]; ok {
 		if internalLogEnabled {
-			internalLog(" From pool")
+			internalLog(" From Pool")
 		}
 		return spd, nil
 	}
@@ -175,7 +175,7 @@ func (p *schemaPool) GetDocument(reference gojsonreference.JsonReference) (*sche
 		}
 
 		if internalLogEnabled {
-			internalLog(" From pool")
+			internalLog(" From Pool")
 		}
 
 		spd = &schemaPoolDocument{Document: document, Draft: cachedSpd.Draft}
@@ -199,7 +199,7 @@ func (p *schemaPool) GetDocument(reference gojsonreference.JsonReference) (*sche
 		return nil, err
 	}
 
-	// add the whole document to the pool for potential re-use
+	// add the whole document to the Pool for potential re-use
 	p.parseReferences(document, refToURL, true)
 
 	_, draft, _ = parseSchemaURL(document)
